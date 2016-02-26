@@ -14,14 +14,14 @@ class hc_f5(object):
 		self.vs_name = vs_name
 		self.vs_ip = vs_ip
 		self.vs_port = vs_port
-		self.host = '123.103.77.7'
+		self.host = 'ip'
 		self.my_username = 'admin'
-		self.my_passwd = 'HC2k05bigip8ip'
-#		self.b = bigsuds.BIGIP(hostname = '123.103.77.7',username = 'admin',,password = 'admin')
+		self.my_passwd = 'admin'
+#		self.b = bigsuds.BIGIP(hostname = 'ip',username = 'admin',,password = 'admin')
 	#启停node
 	def f5_node_control(self):
 		#登录F5，密码保密。
-		#lb = f5.Lb('123.103.77.7', 'admin', 'admin')
+		#lb = f5.Lb('ip', 'admin', 'admin')
 		try:
 			b = bigsuds.BIGIP(hostname = self.host,username=self.my_username,password=self.my_passwd)
 			#创建node操作对象
