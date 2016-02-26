@@ -1,51 +1,51 @@
 #!/usr/bin/env
 #-*- coding:utf-8 -*-
 import bigsuds
-#f5²Ù×÷
+#f5æ“ä½œ
 class hc_f5(object):
     def __init__(self):
-        # self.host = '123.103.77.7'
-        self.host = '123.103.77.8'
+        # self.host = 'ip'
+        self.host = 'ip'
         self.my_username = 'admin'
-        self.my_passwd = 'HC2k05bigip8ip'
-    #ÆôÍ£node
+        self.my_passwd = 'admin'
+    #å¯åœnode
     def f5_node_control(self,pool_name,node_ip,node_port,status):
-        #µÇÂ¼F5£¬ÃÜÂë±£ÃÜ¡£
+        #ç™»å½•F5ï¼Œå¯†ç ä¿å¯†ã€‚
         try:
             print pool_name,node_ip,node_port,status
             b = bigsuds.BIGIP(hostname = self.host,username=self.my_username,password=self.my_passwd)
             # print "#####"
             b.LocalLB.PoolMember.set_session_enabled_state(['/Common/'+pool_name], [[{'member': {'address': node_ip, 'port': node_port}, 'session_state': status}]])
-            #¿ØÖÆ½Úµã¡¢enabled/disabled
+            #æ§åˆ¶èŠ‚ç‚¹ã€enabled/disabled
             # print 'ok'
             return "ok"
         except:
             return "error..."
-    #¸½¼ş½¡¿µ¼ì²éµ½Ó¦ÓÃ³ØÖĞ
+    #é™„ä»¶å¥åº·æ£€æŸ¥åˆ°åº”ç”¨æ± ä¸­
     def f5_monitor_ass(self,pool_name,monitor_templates):
         b = bigsuds.BIGIP(hostname = self.host,username=self.my_username,password=self.my_passwd)
         print self.pool_name
         print self.monitor_templates
         b.LocalLB.Pool.set_monitor_association(monitor_associations = [{'pool_name': pool_name,'monitor_rule':{'type': 'MONITOR_RULE_TYPE_SINGLE','quorum': '2','monitor_templates': [monitor_templates]}}])
-    #´´½¨Ó¦ÓÃ³Ø
+    #åˆ›å»ºåº”ç”¨æ± 
     def f5_pool_create(self,pool_name,node_ip,node_port):
         b = bigsuds.BIGIP(hostname = self.host,username=self.my_username,password=self.my_passwd)
         b.LocalLB.Pool.create_v2(pool_names = [pool_name],lb_methods = ['LB_METHOD_ROUND_ROBIN'],members = [[{'address': node_ip, 'port': node_port},]])
-    #´´½¨¸ºÔØ¾ùºâ·şÎñ
+    #åˆ›å»ºè´Ÿè½½å‡è¡¡æœåŠ¡
     def f5_lb_create(self,pool_name,vs_name,vs_ip,vs_port):
         b = bigsuds.BIGIP(hostname = self.host,username=self.my_username,password=self.my_passwd)
         b.LocalLB.VirtualServer.create(definitions = [{'name': [vs_name], 'address': [vs_ip], 'port': [vs_port], 'protocol': 'PROTOCOL_TCP'}],wildmasks = ['255.255.255.255'],resources = [{'type': 'RESOURCE_TYPE_POOL', 'default_pool_name': [pool_name]}],profiles = [[{'profile_context': 'PROFILE_CONTEXT_TYPE_ALL', 'profile_name': 'tcp'}]])
 # if __name__ == '__main__':
-    # ÅĞ¶ÏÓÃ»§²Ù×÷
-    # select2 = raw_input("ÇëÊäÈëÄã½øĞĞµÄ²Ù×÷£º\n1.Æô¡¢Í£½Úµã\n2.´´½¨pool\n3.¸½¼Ó½¡¿µ¼ì²éµ½pool\n4.´´½¨VSÓ¦ÓÃ\n")
+    # åˆ¤æ–­ç”¨æˆ·æ“ä½œ
+    # select2 = raw_input("è¯·è¾“å…¥ä½ è¿›è¡Œçš„æ“ä½œï¼š\n1.å¯ã€åœèŠ‚ç‚¹\n2.åˆ›å»ºpool\n3.é™„åŠ å¥åº·æ£€æŸ¥åˆ°pool\n4.åˆ›å»ºVSåº”ç”¨\n")
     # if select2 == '1':
-        # node_ip = raw_input("ÇëÊäÈënode ip£º ")
+        # node_ip = raw_input("è¯·è¾“å…¥node ipï¼š ")
         # print node_ip
-        # pool_name = raw_input("ÇëÊäÈëpool name£º ")
+        # pool_name = raw_input("è¯·è¾“å…¥pool nameï¼š ")
         # print pool_name
-        # s_port = raw_input("ÇëÊäÈëService Port£º ")
+        # s_port = raw_input("è¯·è¾“å…¥Service Portï¼š ")
         # print s_port
-        # status = raw_input("ÇëÊäÈëenabled or disabled£º ")
+        # status = raw_input("è¯·è¾“å…¥enabled or disabledï¼š ")
         # if status == 'enabled':
             # status = 'STATE_ENABLED'
         # else:
@@ -55,11 +55,11 @@ class hc_f5(object):
         # resoult = p.f5_node_control()
         # print resoult
     # if select2 == '2':
-        # node_ip = raw_input("ÇëÊäÈënode ip£º ")
+        # node_ip = raw_input("è¯·è¾“å…¥node ipï¼š ")
         # print node_ip
-        # pool_name = raw_input("ÇëÊäÈëpool name£º ")
+        # pool_name = raw_input("è¯·è¾“å…¥pool nameï¼š ")
         # print pool_name
-        # s_port = raw_input("ÇëÊäÈëService Port£º ")
+        # s_port = raw_input("è¯·è¾“å…¥Service Portï¼š ")
         # print s_port
 
         # p = hc_f5(node_ip,pool_name,s_port)
@@ -67,9 +67,9 @@ class hc_f5(object):
         # print resoult
 
     # if select2 == '3':
-        # pool_name = raw_input("ÇëÊäÈëpool name£º ")
+        # pool_name = raw_input("è¯·è¾“å…¥pool nameï¼š ")
         # print pool_name
-        # monitor_templates = raw_input("ÇëÊäÈëmonitor_templates_name£º "
+        # monitor_templates = raw_input("è¯·è¾“å…¥monitor_templates_nameï¼š "
         # print monitor_templates
         # node_ip=None
         # s_port=None
@@ -79,14 +79,14 @@ class hc_f5(object):
         # print resoult
 
 	# if select2 == '4':
-		# vs_name = raw_input("ÇëÊäÈëvs nanme£º ")
+		# vs_name = raw_input("è¯·è¾“å…¥vs nanmeï¼š ")
 		# print vs_name
-		# vs_ip = raw_input("ÇëÊäÈëvs ip£º ")
+		# vs_ip = raw_input("è¯·è¾“å…¥vs ipï¼š ")
 		# print vs_ip
 		# print type(vs_ip)
-		# pool_name = raw_input("ÇëÊäÈëpool name£º ")
+		# pool_name = raw_input("è¯·è¾“å…¥pool nameï¼š ")
 		# print pool_name
-		# vs_port = raw_input("ÇëÊäÈëvs port£º ")
+		# vs_port = raw_input("è¯·è¾“å…¥vs portï¼š ")
 		# print vs_port
 		# node_ip=None
 		# s_port=None
