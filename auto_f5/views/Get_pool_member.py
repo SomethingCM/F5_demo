@@ -4,7 +4,7 @@ import f5
 class get_pool_mem(object):
 	def __init__(self,node_ip=None,pool_name=None,s_port=None,status=None,monitor_templates=None,vs_name=None,vs_ip=None,vs_port=None):
 		
-		self.host = '123.103.77.7'
+		self.host = 'ip'
 		self.my_username = 'admin'
 		self.my_passwd = 'admin'
 	
