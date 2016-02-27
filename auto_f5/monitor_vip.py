@@ -171,15 +171,15 @@ def insert_vip(vip_info):
                         print traceback.format_exc()
     except:
         pass
-#{'pool_name': ['/Common/pool_BI_2_pool'], 'monitor_association': ['/Common/tcp_30sec'], 'vs_ip': '123.103.77.173', 'vs_port': 80, 'vs_name': '/Common/vs_BI_2_vip', 'nodes': [{'node_status': 'SESSION_STATUS_ENABLED', 'node_port': 80, 'node_ip': '192.168.60.178'}]}
+#{'pool_name': ['/Common/pool_BI_2_pool'], 'monitor_association': ['/Common/tcp_30sec'], 'vs_ip': '10.103.77.173', 'vs_port': 80, 'vs_name': '/Common/vs_BI_2_vip', 'nodes': [{'node_status': 'SESSION_STATUS_ENABLED', 'node_port': 80, 'node_ip': '192.168.60.178'}]}
 def get_mem():
-    #µÇÂ¼F5
-    b = bigsuds.BIGIP(hostname = '123.103.77.7',username='admin',password='HC2k05bigip8ip')
-    #»ñÈ¡vs_name
+    #ç™»å½•F5
+    b = bigsuds.BIGIP(hostname = 'ip',username='admin',password='admin')
+    #è·å–vs_name
     vs_names_list = b.LocalLB.VirtualServer.get_list()
     #print 'vs_names_list:',vs_names_list
     #['/Common/anyipforward', '/Common/vs_BI_2_vip', '/Common/vs_BI_vip', '/Common/vs_activityb2b_vip', '/Common/vs_alarmorg_vip', '/Common/vs_ask_vip', ]
-    #´´½¨Ò»¸ö¿Õ×Öµä£¬´æ´¢vs_name':vs_name,'vs_ip':vs_ip,'vs_port':vs_port,'pool_name':pool_name,'monitor_association':monitor_association
+    #åˆ›å»ºä¸€ä¸ªç©ºå­—å…¸ï¼Œå­˜å‚¨vs_name':vs_name,'vs_ip':vs_ip,'vs_port':vs_port,'pool_name':pool_name,'monitor_association':monitor_association
     
     
     if vs_names_list:
@@ -190,7 +190,7 @@ def get_mem():
             vip_port = b.LocalLB.VirtualServer.get_destination([vs_name])
             pool_mem_vip_dict['vs_ip'] = vip_port[0]['address']
             pool_mem_vip_dict['vs_port'] = vip_port[0]['port']
-            #Í¨¹ıvs_name»ñÈ¡poolname
+            #é€šè¿‡vs_nameè·å–poolname
             poolname = b.LocalLB.VirtualServer.get_default_pool_name([vs_name])
             print 'pool name:',poolname
             if poolname[0]:
@@ -198,14 +198,14 @@ def get_mem():
             else:
                 pool_mem_vip_dict['pool_name'] = ''
             
-            #Í¨¹ıvs_name»ñÈ¡½¡¿µ¼ì²é
+            #é€šè¿‡vs_nameè·å–å¥åº·æ£€æŸ¥
             try:
                 monitor_association = b.LocalLB.PoolMember.get_monitor_association(poolname)
                 pool_mem_vip_dict['monitor_association'] = monitor_association[0][0]['monitor_rule']['monitor_templates'][0].split('/')[2]
             except:
                 pool_mem_vip_dict['monitor_association'] = ""
 
-            #Í¨¹ıpoolname»ñÈ¡node_ip£¬node_port,node_status
+            #é€šè¿‡poolnameè·å–node_ipï¼Œnode_port,node_status
             nodelist_list = []
             
             nodelist = b.LocalLB.PoolMember.get_session_status([poolname])
