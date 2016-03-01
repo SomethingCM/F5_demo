@@ -17,7 +17,7 @@ os.environ['DJANGO_SETTINGS_MODULE'] ='automation.settings'
 django.setup()
 from auto_f5 import models
 import bigsuds
-def insert_vip(vip_info):
+def insert_vip(vips_info):
     try:
         if vips_info:
             if vips_info['vs_ip']:
